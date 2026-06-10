@@ -209,8 +209,129 @@
         }, { passive: true }); /* Unblocks iOS scrolling thread */
     }
 
-    // Mobile Menu Logic
+    // Shared Collection IV Anchor Glide + Mobile Menu Logic
     const mobileToggle = navElement.querySelector('#mobileToggle');
+    const getHeaderOffset = () => Math.ceil((navElement && navElement.getBoundingClientRect().height) || 64);
+    const getAnchorTargetY = (targetElement) => {
+        const targetTop = targetElement.getBoundingClientRect().top + window.scrollY;
+        return Math.max(0, targetTop - getHeaderOffset() - 10);
+    };
+    let savedInlineScrollBehavior = null;
+    const forceInstantScrollBehavior = () => {
+        const root = document.documentElement;
+        if (savedInlineScrollBehavior === null) savedInlineScrollBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+    };
+    const restoreInstantScrollBehavior = () => {
+        if (savedInlineScrollBehavior === null) return;
+        const root = document.documentElement;
+        if (savedInlineScrollBehavior) root.style.scrollBehavior = savedInlineScrollBehavior;
+        else root.style.removeProperty('scroll-behavior');
+        savedInlineScrollBehavior = null;
+    };
+    const instantScrollTo = (top) => {
+        forceInstantScrollBehavior();
+        window.scrollTo(0, top);
+        restoreInstantScrollBehavior();
+    };
+    const closeMobileMenu = () => {
+        navElement.classList.remove('nav-open');
+        document.documentElement.classList.remove('scroll-locked');
+        document.body.style.overflow = '';
+        if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
+    };
+    const runAfterViewportSettles = (callback, delay = 0) => {
+        const run = () => requestAnimationFrame(() => requestAnimationFrame(callback));
+        delay > 0 ? setTimeout(run, delay) : run();
+    };
+    let activeAnchorScroll = 0;
+    function scrollToAnchor(targetId, behavior = 'smooth') {
+        if (!targetId || targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (!target) return;
+
+        const scrollRun = ++activeAnchorScroll;
+        history.replaceState(null, null, targetId);
+
+        if (behavior === 'auto' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            instantScrollTo(getAnchorTargetY(target));
+            return;
+        }
+
+        forceInstantScrollBehavior();
+        const restoreScrollBehavior = () => {
+            if (scrollRun !== activeAnchorScroll) return;
+            restoreInstantScrollBehavior();
+        };
+
+        let isUserScrolling = false;
+        const stopCorrection = () => {
+            isUserScrolling = true;
+            restoreScrollBehavior();
+        };
+        ['wheel', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
+            window.addEventListener(evt, stopCorrection, { once: true, passive: true });
+        });
+
+        const startTime = performance.now();
+        const minTrackTime = window.innerWidth <= 768 ? 1100 : 650;
+        let stableFrames = 0;
+        let lastTime = startTime;
+        let currentY = window.scrollY;
+
+        const scrollLoop = (time) => {
+            if (isUserScrolling || scrollRun !== activeAnchorScroll) {
+                restoreScrollBehavior();
+                return;
+            }
+
+            const isMobileScroll = window.innerWidth <= 768;
+            const dt = Math.min(isMobileScroll ? 24 : 32, time - lastTime || 16);
+            lastTime = time;
+            const targetY = getAnchorTargetY(target);
+            const diff = targetY - currentY;
+            const elapsed = time - startTime;
+            const distance = Math.abs(diff);
+            const stopThreshold = isMobileScroll ? 0.8 : 0.6;
+
+            if (distance < stopThreshold) {
+                stableFrames++;
+                if (isMobileScroll) {
+                    if (elapsed >= minTrackTime && stableFrames >= 5) {
+                        restoreScrollBehavior();
+                        return;
+                    }
+                    requestAnimationFrame(scrollLoop);
+                    return;
+                }
+
+                window.scrollTo(0, targetY);
+                if (elapsed >= minTrackTime && stableFrames >= 8) {
+                    restoreScrollBehavior();
+                    return;
+                }
+                requestAnimationFrame(scrollLoop);
+                return;
+            }
+
+            stableFrames = 0;
+            const lerpFactor = 1 - Math.exp(-0.002 * dt);
+            currentY += diff * lerpFactor;
+            window.scrollTo(0, currentY);
+            requestAnimationFrame(scrollLoop);
+        };
+
+        requestAnimationFrame((time) => {
+            lastTime = time;
+            scrollLoop(time);
+        });
+    }
+    const glideToAnchor = (targetId, delay = 0) => runAfterViewportSettles(() => scrollToAnchor(targetId), delay);
+    window.FolioLabScrollToAnchor = glideToAnchor;
+    window.LuxuryScrollToAnchor = glideToAnchor;
+
+    let menuTouchStartX = 0;
+    let menuTouchStartY = 0;
     if (mobileToggle) {
         mobileToggle.addEventListener('click', () => {
             navElement.classList.toggle('nav-open');
@@ -225,30 +346,63 @@
             mobileToggle.setAttribute('aria-expanded', isOpen);
         });
 
+        const navLinks = navElement.querySelector('.nav-links');
+        if (navLinks) {
+            navLinks.addEventListener('click', (e) => {
+                if (e.target.closest('a, .lang-switch, .theme-toggle')) return;
+                closeMobileMenu();
+            });
+
+            navLinks.addEventListener('touchstart', (e) => {
+                if (!navElement.classList.contains('nav-open') || e.touches.length !== 1) return;
+                menuTouchStartX = e.touches[0].screenX;
+                menuTouchStartY = e.touches[0].screenY;
+            }, { passive: true });
+
+            navLinks.addEventListener('touchend', (e) => {
+                if (!navElement.classList.contains('nav-open') || !e.changedTouches.length) return;
+                const deltaX = e.changedTouches[0].screenX - menuTouchStartX;
+                const deltaY = e.changedTouches[0].screenY - menuTouchStartY;
+                if (deltaX > 70 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) closeMobileMenu();
+            }, { passive: true });
+        }
+
         // Close menu when a link is clicked
         navElement.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 const href = link.getAttribute('href');
                 // Fix: If it's a cross-page link, DO NOT snap the menu shut. Let the curtain smoothly cover it.
+                if (href && (href.startsWith('#') || (isHomePage && href.startsWith('index.html#')))) return;
                 if (href && !href.startsWith('#')) return;
 
-                navElement.classList.remove('nav-open');
-                document.documentElement.classList.remove('scroll-locked');
-                document.body.style.overflow = '';
-                mobileToggle.setAttribute('aria-expanded', 'false');
+                closeMobileMenu();
             });
         });
 
         // Cleanup: Ensure body scroll is restored if window is resized while menu is open
         window.addEventListener('resize', () => {
             if (window.innerWidth > 1024 && navElement.classList.contains('nav-open')) {
-                navElement.classList.remove('nav-open');
-                document.documentElement.classList.remove('scroll-locked');
-                document.body.style.overflow = '';
-                mobileToggle.setAttribute('aria-expanded', 'false');
+                closeMobileMenu();
             }
         });
     }
+
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (!link || link.classList.contains('back-to-top')) return;
+
+        const href = link.getAttribute('href');
+        const isSamePageHash = href && (href.startsWith('#') || (isHomePage && href.startsWith('index.html#')));
+        if (!isSamePageHash) return;
+
+        const targetId = href.substring(href.indexOf('#'));
+        if (!document.querySelector(targetId)) return;
+
+        e.preventDefault();
+        const wasMenuOpen = navElement.classList.contains('nav-open');
+        if (wasMenuOpen) closeMobileMenu();
+        glideToAnchor(targetId, wasMenuOpen ? 320 : 0);
+    });
 
     // Theme Switching Logic
     const themeToggle = navElement.querySelector('#themeToggle');
@@ -352,120 +506,13 @@
         });
     }
 
-    // Dynamic Layout-Aware Smooth Scroll & Hash Navigation Fix (Homepage Only)
+    // Dynamic Layout-Aware Hash Navigation Fix (Homepage Only)
     if (isHomePage) {
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Intercept standard on-page clicks
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                if (anchor.classList.contains('back-to-top')) return;
-                
-                anchor.addEventListener('click', function(e) {
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        e.preventDefault();
-                        
-                        const executeScroll = () => {
-                            history.replaceState(null, null, targetId);
-
-                            // Actively track and seamlessly correct the scroll destination if lazy images push the layout down
-                            let isUserScrolling = false;
-                            const stopCorrection = () => isUserScrolling = true;
-                            ['wheel', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
-                                window.addEventListener(evt, stopCorrection, { once: true, passive: true });
-                            });
-
-                            let currentY = window.scrollY;
-                            let lastTime = performance.now();
-
-                            const scrollLoop = (time) => {
-                                if (isUserScrolling) return;
-
-                                const dt = time - lastTime;
-                                lastTime = time;
-
-                                // Continuously calculate the target destination in case lazy images expand above it
-                                const targetY = targetElement.getBoundingClientRect().top + window.scrollY - 64;
-                                const diff = targetY - currentY;
-
-                                if (Math.abs(diff) < 1) {
-                                    window.scrollTo(0, targetY);
-                                    return;
-                                }
-
-                                // Framerate-independent lerp (Linear Interpolation) for buttery smooth gliding
-                                // This natively absorbs layout shifts without glitching the native scrolling engine
-                                const lerpFactor = 1 - Math.exp(-0.002 * dt); // Optimized sweet spot for smooth but responsive gliding
-                                currentY += diff * lerpFactor;
-                                
-                                window.scrollTo(0, currentY);
-
-                                requestAnimationFrame(scrollLoop);
-                            };
-
-                            requestAnimationFrame((time) => {
-                                lastTime = time;
-                                scrollLoop(time);
-                            });
-                        };
-
-                        if (navElement.classList.contains('nav-open')) {
-                            navElement.classList.remove('nav-open');
-                            document.documentElement.classList.remove('scroll-locked');
-                            document.body.style.overflow = '';
-                            // Delay scroll by 100ms to prevent iOS Safari compositor crash after body unlock reflow
-                            setTimeout(executeScroll, 100);
-                        } else {
-                            executeScroll();
-                        }
-                    }
-                });
-            });
-
-            // 2. Fix cross-page navigation when arriving with a hash (e.g. index.html#motion)
+        window.addEventListener('load', () => {
             if (window.location.hash) {
-                const targetElement = document.querySelector(window.location.hash);
-                
-                if (targetElement) {
-                    let isUserScrolling = false;
-                    
-                    // Stop correcting if the user manually tries to scroll
-                    const stopCorrection = () => isUserScrolling = true;
-                    ['wheel', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
-                        window.addEventListener(evt, stopCorrection, { once: true, passive: true });
-                    });
-
-                    let trackingActive = true;
-                    
-                    const trackTarget = () => {
-                        if (isUserScrolling || !trackingActive) return;
-                        
-                        const rectTop = targetElement.getBoundingClientRect().top;
-                        
-                        // If layout shifts push the target away from the header, immediately correct it
-                        if (Math.abs(rectTop - 64) > 2) {
-                            window.scrollTo(0, rectTop + window.scrollY - 64);
-                        }
-                        
-                        if (trackingActive) {
-                            requestAnimationFrame(trackTarget);
-                        }
-                    };
-
-                    // Start stapling the viewport to the target immediately
-                    trackTarget();
-
-                    // Safely disconnect the tracker once the page fully resolves
-                    window.addEventListener('load', () => { 
-                        setTimeout(() => trackingActive = false, 500); // Allow brief buffer for final renders
-                    });
-                    
-                    // Failsafe disconnect after 3 seconds
-                    setTimeout(() => trackingActive = false, 3000);
-                }
+                scrollToAnchor(window.location.hash, 'auto');
             }
-        });
+        }, { once: true });
     }
 
     // Auto-inject Config Data into HTML placeholders
