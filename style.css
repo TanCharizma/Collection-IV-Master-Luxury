@@ -10,7 +10,7 @@
     --gold: #C9A74E; /* Primary Accent Color */
 
     /* 2. BRAND FONTS */
-    --serif: 'Playfair Display', serif;
+    --serif: 'Cormorant Garamond', serif;
     --sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
     /* 3. SPACING */
@@ -111,7 +111,13 @@ h1, h2, .logo {
     letter-spacing: 0.15em; /* Increased letter spacing */
 }
 
-h1 { font-size: 96px; line-height: 0.85; } /* Larger and tighter line height */
+h1 { 
+    font-family: var(--serif);
+    font-weight: 300; 
+    font-size: 96px; 
+    line-height: 0.9; 
+    letter-spacing: 0.02em;
+}
 h2 { font-size: 48px; margin-bottom: 64px; font-weight: 300; } /* Larger with more bottom margin */
 
 h3 { 
@@ -474,7 +480,7 @@ nav.on-hero:not(.scrolled) .theme-toggle {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
 }
 
 .hero-content {
@@ -529,8 +535,8 @@ nav.on-hero:not(.scrolled) .theme-toggle {
     -webkit-tap-highlight-color: transparent; /* Removes the default browser gray blink */
 }
 
-.btn-primary { background: var(--white); color: var(--black); padding: 16px 48px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.25em; }
-.btn-secondary { border: 1px solid var(--white); color: var(--white); padding: 16px 48px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.25em; }
+.btn-primary { background: var(--white); color: var(--black); padding: 12px 36px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.25em; }
+.btn-secondary { border: 1px solid var(--white); color: var(--white); padding: 12px 36px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.25em; }
 
 @media (hover: hover) {
     .back-to-top:hover { 
