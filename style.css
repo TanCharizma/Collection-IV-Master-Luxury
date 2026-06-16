@@ -1881,7 +1881,7 @@ footer {
     nav.nav-open .mobile-toggle span:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
     nav.nav-open .mobile-toggle span:nth-child(2) { transform: translateY(-4.5px) rotate(-45deg); }
 
-    .dropdown { width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .dropdown { width: auto; display: flex; flex-direction: column; align-items: center; }
 
     /* Editorial Mobile Typography */
     .nav-links > a, .dropdown-trigger {
@@ -1893,7 +1893,8 @@ footer {
         color: var(--text);
         display: flex !important;
         justify-content: center;
-        width: 100%;
+        width: auto;
+        padding: 6px 0;
     }
 
     /* Animation for links when menu opens */
@@ -1927,7 +1928,7 @@ footer {
         padding: 8px 0 16px 0;
     }
 
-    .dropdown-content a { font-size: 11px !important; text-transform: uppercase !important; letter-spacing: 0.3em !important; opacity: 0.4; padding: 4px 0 !important; transform: none !important; transition-delay: 0s !important; }
+    .dropdown-content a { font-size: 11px !important; text-transform: uppercase !important; letter-spacing: 0.3em !important; opacity: 0.4; padding: 2px 0 !important; width: auto !important; transform: none !important; transition-delay: 0s !important; }
     .dropdown-content a.active { opacity: 1 !important; color: var(--gold) !important; }
     .lang-switch { margin-top: 24px; font-size: 14px; }
     .dropdown-trigger::after { display: none; }
@@ -1947,6 +1948,15 @@ footer {
 /* Small Tablets & Large Mobiles (768px and below) */
 @media (max-width: 768px) {
     :root { --margin: 48px; --gutter: 16px; }
+    html, body { background: var(--bg); }
+
+    .hero,
+    .splash-screen,
+    .nav-links,
+    .app-transition-curtain {
+        min-height: 115svh;
+        min-height: 115dvh;
+    }
     
     h1 { font-size: 64px; }
     .splash-logo { font-size: 32px; }
@@ -1956,6 +1966,28 @@ footer {
     .container { grid-template-columns: 1fr; } /* Simplifies layout for tablets */
 
     nav { padding: 0 24px; }
+
+    .splash-screen {
+        padding-bottom: 15vh;
+        box-sizing: border-box;
+    }
+
+    .hero {
+        padding-top: calc(var(--margin) + env(safe-area-inset-top));
+        padding-bottom: calc(var(--margin) + env(safe-area-inset-bottom) + 15vh);
+    }
+
+    .hero-bg {
+        top: -8vh;
+        bottom: -15vh;
+        inset: auto 0 auto 0;
+        height: calc(100% + 23vh);
+        background-position: center 12%;
+    }
+
+    .hero-content {
+        padding-bottom: 10vh;
+    }
 
     .hero-signature {
         right: 32px;
@@ -2038,15 +2070,16 @@ footer {
 @media (max-width: 480px) {
     :root { --margin: 24px; }
     
-    h1 { font-size: 38px; line-height: 1.1; letter-spacing: 0.02em; } /* Smaller to fit narrow screens */
-    .splash-logo { font-size: 28px; line-height: 1.1; letter-spacing: 0.15em; }
+    h1 { font-size: 42px; line-height: 1.04; letter-spacing: 0.02em; } /* Smaller to fit narrow screens */
+    .splash-logo { font-size: 28px; line-height: 1.1; letter-spacing: 0.08em; white-space: nowrap; }
     .hero-tagline { font-size: 11px; letter-spacing: 0.3em; }
     .page-header { font-size: 32px; margin-bottom: 32px; } /* Scales down subpage titles */
     
     nav { height: 64px; }
     .btn-book { padding: 8px 16px; font-size: 12px; }
     
-    #clientNameHero { max-width: 10ch; }
+    #clientNameHero { max-width: 11ch; }
+    .hero-content { padding-bottom: 12vh; }
     .hero-btns { flex-direction: column; gap: 14px; }
     .btn-primary, .btn-secondary { padding: 12px 24px; font-size: 12px; letter-spacing: 0.2em; }
     .hero-edition-note { display: none; }
@@ -2076,13 +2109,23 @@ footer {
     .featured-grid--luxury .featured-item:nth-child(4) { margin-top: 0; }
     
     /* Revert to stable CSS Columns for mobile masonry */
-    .full-grid { 
-        display: block; 
-        column-count: 2; 
-        column-gap: 16px; 
-    } 
-    .portfolio-column, .masonry-col { display: contents; } 
-    .full-grid img { margin-bottom: 16px; }
+    .full-grid {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+    }
+    .portfolio-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .masonry-col {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .full-grid img { margin-bottom: 0; }
 
     /* Measurements */
     .info-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 16px 0; }
@@ -2144,7 +2187,12 @@ footer {
     .luxury-clients-title,
     .luxury-clients-heading { margin-bottom: 24px; font-size: 11px; letter-spacing: 0.24em; }
     .luxury-clients-row,
-    .luxury-clients-row--about { gap: 24px 28px; }
+    .luxury-clients-row--about {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, max-content));
+        justify-content: flex-start;
+        gap: 24px 28px;
+    }
     .luxury-brand-logo { height: 22px; }
     .cta-section__eyebrow { font-size: 10px; letter-spacing: 0.24em; }
     .cta-section__copy { font-size: 18px; margin-top: 20px; }
