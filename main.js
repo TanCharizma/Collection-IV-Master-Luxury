@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
             backToTop.style.opacity = '0';
             backToTop.style.pointerEvents = 'none';
             backToTop.classList.remove('visible');
-            if (window.FolioLabScrollToAnchor) {
+            if (window.FolioLabScrollToAnchor && document.querySelector('#hero')) {
                 window.FolioLabScrollToAnchor('#hero');
             } else {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
