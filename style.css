@@ -1950,12 +1950,11 @@ footer {
     :root { --margin: 48px; --gutter: 16px; }
     html, body { background: var(--bg); }
 
-    .hero,
     .splash-screen,
     .nav-links,
     .app-transition-curtain {
+        height: 115svh;
         min-height: 115svh;
-        min-height: 115dvh;
     }
     
     h1 { font-size: 64px; }
@@ -1973,20 +1972,21 @@ footer {
     }
 
     .hero {
+        height: 115svh;
+        min-height: 115svh;
         padding-top: calc(var(--margin) + env(safe-area-inset-top));
-        padding-bottom: calc(var(--margin) + env(safe-area-inset-bottom) + 15vh);
+        padding-bottom: calc(var(--margin) + env(safe-area-inset-bottom));
     }
 
     .hero-bg {
-        top: -8vh;
-        bottom: -15vh;
-        inset: auto 0 auto 0;
-        height: calc(100% + 23vh);
-        background-position: center 12%;
+        top: -6svh;
+        bottom: -15svh;
+        height: auto;
+        background-position: center 0%;
     }
 
     .hero-content {
-        padding-bottom: 10vh;
+        padding-bottom: 11vh;
     }
 
     .hero-signature {
@@ -2049,6 +2049,23 @@ footer {
     .luxury-clients-row--about {
         gap: 48px;
     }
+
+    .luxury-clients-section--about .luxury-clients-shell {
+        padding: 88px 0;
+        text-align: center;
+    }
+
+    .luxury-clients-section--about .luxury-clients-shell::before {
+        display: none;
+    }
+
+    .luxury-clients-section--about .luxury-clients-heading {
+        text-align: center;
+    }
+
+    .luxury-clients-section--about .luxury-clients-row {
+        justify-content: center;
+    }
     
     /* About Page Bio */
     .split-layout { flex-direction: column; gap: 48px; }
@@ -2079,7 +2096,7 @@ footer {
     .btn-book { padding: 8px 16px; font-size: 12px; }
     
     #clientNameHero { max-width: 11ch; }
-    .hero-content { padding-bottom: 12vh; }
+    .hero-content { padding-bottom: 13vh; }
     .hero-btns { flex-direction: column; gap: 14px; }
     .btn-primary, .btn-secondary { padding: 12px 24px; font-size: 12px; letter-spacing: 0.2em; }
     .hero-edition-note { display: none; }
@@ -2184,6 +2201,9 @@ footer {
     .luxury-clients-section { padding-bottom: 88px; }
     .luxury-clients-shell,
     .luxury-clients-shell--about { padding-left: 16px; }
+    .luxury-clients-section--about .luxury-clients-shell {
+        padding: 72px 0;
+    }
     .luxury-clients-title,
     .luxury-clients-heading { margin-bottom: 24px; font-size: 11px; letter-spacing: 0.24em; }
     .luxury-clients-row,
@@ -2192,6 +2212,9 @@ footer {
         grid-template-columns: repeat(2, minmax(0, max-content));
         justify-content: flex-start;
         gap: 24px 28px;
+    }
+    .luxury-clients-section--about .luxury-clients-row {
+        justify-content: center;
     }
     .luxury-brand-logo { height: 22px; }
     .cta-section__eyebrow { font-size: 10px; letter-spacing: 0.24em; }
