@@ -5,8 +5,10 @@
 (function() {
     let isNavigating = false;
     const isHomePage = window.location.pathname === '/' || window.location.pathname.endsWith('/index.html');
-    const isInternalNav = sessionStorage.getItem('internalNav') === 'true';
-    sessionStorage.removeItem('internalNav'); // Clean up immediately after reading
+    const isInternalNav = sessionStorage.getItem('internalNav_Luxury') === 'true';
+    sessionStorage.removeItem('internalNav_Luxury'); // Clean up immediately after reading
+    const pendingAnchor = sessionStorage.getItem('pendingAnchor_Luxury');
+    sessionStorage.removeItem('pendingAnchor_Luxury');
 
     // Bypass Splash Screen immediately if navigating back to the home page internally
     if (isHomePage && isInternalNav) {
@@ -92,7 +94,17 @@
         const curtain = document.getElementById('appCurtain');
         if (!curtain) { window.location.href = link.href; return; }
 
-        sessionStorage.setItem('internalNav', 'true'); // Flag that this is an internal jump
+        sessionStorage.setItem('internalNav_Luxury', 'true'); // Flag that this is an internal jump
+        let navigationHref = link.href;
+        try {
+            const targetUrl = new URL(link.href, window.location.origin);
+            const targetPath = targetUrl.pathname.split('/').pop() || 'index.html';
+            if (targetUrl.hash && targetPath === 'index.html') {
+                sessionStorage.setItem('pendingAnchor_Luxury', targetUrl.hash);
+                targetUrl.hash = '';
+                navigationHref = targetUrl.href;
+            }
+        } catch (err) {}
 
     isNavigating = true;
         curtain.style.pointerEvents = 'auto'; // Block any double-clicks instantly
@@ -104,7 +116,7 @@
         navigated = true; 
         curtain.style.opacity = '1';
         curtain.style.transition = 'none';
-        window.location.href = link.href; 
+        window.location.href = navigationHref;
     };
 
     curtain.addEventListener('transitionend', (e) => {
@@ -509,8 +521,9 @@
     // Dynamic Layout-Aware Hash Navigation Fix (Homepage Only)
     if (isHomePage) {
         window.addEventListener('load', () => {
-            if (window.location.hash) {
-                scrollToAnchor(window.location.hash, 'auto');
+            const targetHash = pendingAnchor || window.location.hash;
+            if (targetHash) {
+                glideToAnchor(targetHash, isInternalNav || pendingAnchor ? 420 : 160);
             }
         }, { once: true });
     }
