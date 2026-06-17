@@ -1962,7 +1962,7 @@ footer {
     }
     
     h1 { font-size: 64px; }
-    .splash-logo { font-size: 28px; }
+    .splash-logo { font-size: 26px; }
     h2 { font-size: 36px; margin-bottom: 48px; }
     .page-header { font-size: 38px; }
     
@@ -1972,6 +1972,7 @@ footer {
 
     .splash-screen {
         top: calc(-1 * var(--mobile-viewport-overbleed));
+        background: #070707;
         height: calc(100vh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
         height: calc(100lvh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
         min-height: calc(100vh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
@@ -1979,6 +1980,10 @@ footer {
         padding-top: calc(var(--mobile-viewport-overbleed) + env(safe-area-inset-top));
         padding-bottom: calc(var(--mobile-viewport-overbleed) + env(safe-area-inset-bottom));
         box-sizing: border-box;
+    }
+
+    .splash-shell {
+        transform: translateY(-4vh);
     }
 
     .hero {
@@ -2098,7 +2103,7 @@ footer {
     :root { --margin: 24px; }
     
     h1 { font-size: 42px; line-height: 1.04; letter-spacing: 0.02em; } /* Smaller to fit narrow screens */
-    .splash-logo { font-size: 23px; line-height: 1.1; letter-spacing: 0.07em; white-space: nowrap; }
+    .splash-logo { font-size: 20px; line-height: 1.1; letter-spacing: 0.07em; white-space: nowrap; }
     .hero-tagline { font-size: 11px; letter-spacing: 0.3em; }
     .page-header { font-size: 32px; margin-bottom: 32px; } /* Scales down subpage titles */
     
@@ -2229,6 +2234,9 @@ footer {
     .luxury-clients-section--about .luxury-clients-row .luxury-brand-logo:last-child {
         grid-column: 1 / -1;
         justify-self: center;
+    }
+    .luxury-clients-section--about .luxury-brand-logo {
+        height: 26px;
     }
     .luxury-brand-logo { height: 22px; }
     .cta-section__eyebrow { font-size: 10px; letter-spacing: 0.24em; }
