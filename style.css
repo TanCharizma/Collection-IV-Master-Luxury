@@ -58,6 +58,19 @@ html.splash-active body {
     background: #070707;
 }
 
+html.splash-active::before {
+    content: "";
+    position: fixed;
+    inset: -40vh -40vw;
+    background: #070707;
+    z-index: 9998;
+    pointer-events: none;
+}
+
+html.splash-active .app-transition-curtain {
+    background: #070707;
+}
+
 /* Modern Scrollbar Styling (Vasilina Engine) */
 ::-webkit-scrollbar {
     width: 6px;
