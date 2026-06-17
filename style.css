@@ -49,6 +49,15 @@ html {
     scrollbar-gutter: stable; /* Prevents layout shift when modals open */
 }
 
+html.splash-active {
+    background: #070707;
+    color-scheme: dark;
+}
+
+html.splash-active body {
+    background: #070707;
+}
+
 /* Modern Scrollbar Styling (Vasilina Engine) */
 ::-webkit-scrollbar {
     width: 6px;
@@ -1992,6 +2001,14 @@ footer {
         background: #070707;
         z-index: 0;
         pointer-events: none;
+    }
+
+    .splash-screen .splash-shell {
+        position: fixed;
+        top: 50svh;
+        left: 50%;
+        width: min(100vw, 720px);
+        transform: translate(-50%, -50%);
     }
 
     .hero {

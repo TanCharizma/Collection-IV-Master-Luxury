@@ -12,6 +12,9 @@
 
     // Bypass Splash Screen immediately if navigating back to the home page internally
     if (isHomePage && isInternalNav) {
+        document.documentElement.classList.remove('splash-active');
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        if (themeColor) themeColor.setAttribute('content', '#FCFBF9');
         const splash = document.getElementById('splash-screen');
         if (splash) {
             splash.removeAttribute('id'); // Disconnect from main.js timer

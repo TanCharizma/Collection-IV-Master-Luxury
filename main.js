@@ -122,6 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (splashScreen) {
             Promise.all([minSplashTime, heroImageLoad]).then(() => {
                 splashScreen.classList.add('hidden');
+                document.documentElement.classList.remove('splash-active');
+                const themeColor = document.querySelector('meta[name="theme-color"]');
+                if (themeColor) themeColor.setAttribute('content', '#FCFBF9');
                 document.documentElement.classList.remove('scroll-locked');
                 document.documentElement.style.overflow = '';
                 document.body.style.overflow = '';
