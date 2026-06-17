@@ -80,6 +80,10 @@ html.splash-active .app-transition-curtain {
     background: #070707;
 }
 
+html.splash-active body > :not(#splash-screen) {
+    visibility: hidden !important;
+}
+
 html.splash-active .hero-atelier-frame,
 html.splash-active .hero-edition-note,
 html.splash-active .luxury-scroll-hint,
