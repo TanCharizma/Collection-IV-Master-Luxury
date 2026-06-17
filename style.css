@@ -1954,6 +1954,10 @@ footer {
         --mobile-viewport-overbleed: 15vh;
     }
     html, body { background: var(--bg); }
+    html.scroll-locked,
+    html.scroll-locked body {
+        background: #070707;
+    }
 
     .nav-links,
     .app-transition-curtain {
@@ -1977,6 +1981,7 @@ footer {
         overflow: visible;
         height: calc(100vh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
         height: calc(100lvh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
+        height: calc(100svh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
         min-height: calc(100vh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
         min-height: calc(100svh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
         padding-top: calc(var(--mobile-viewport-overbleed) + env(safe-area-inset-top));
@@ -2223,7 +2228,7 @@ footer {
     .luxury-clients-shell,
     .luxury-clients-shell--about { padding-left: 16px; }
     .luxury-clients-section--about .luxury-clients-shell {
-        padding: 46px 0;
+        padding: 46px 0 30px;
     }
     .luxury-clients-title,
     .luxury-clients-heading { margin-bottom: 34px; font-size: 11px; letter-spacing: 0.24em; }
