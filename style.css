@@ -1973,6 +1973,8 @@ footer {
     .splash-screen {
         top: calc(-1 * var(--mobile-viewport-overbleed));
         background: #070707;
+        isolation: isolate;
+        overflow: visible;
         height: calc(100vh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
         height: calc(100lvh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
         min-height: calc(100vh + var(--mobile-viewport-overbleed) + var(--mobile-viewport-overbleed));
@@ -1982,8 +1984,12 @@ footer {
         box-sizing: border-box;
     }
 
-    .splash-shell {
-        transform: translateY(-4vh);
+    .splash-screen::before {
+        content: "";
+        position: fixed;
+        inset: -30vh -30vw;
+        background: #070707;
+        z-index: -1;
     }
 
     .hero {
@@ -2220,13 +2226,13 @@ footer {
         padding: 46px 0;
     }
     .luxury-clients-title,
-    .luxury-clients-heading { margin-bottom: 24px; font-size: 11px; letter-spacing: 0.24em; }
+    .luxury-clients-heading { margin-bottom: 34px; font-size: 11px; letter-spacing: 0.24em; }
     .luxury-clients-row,
     .luxury-clients-row--about {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, max-content));
         justify-content: flex-start;
-        gap: 24px 28px;
+        gap: 32px 42px;
     }
     .luxury-clients-section--about .luxury-clients-row {
         justify-content: center;
@@ -2236,7 +2242,7 @@ footer {
         justify-self: center;
     }
     .luxury-clients-section--about .luxury-brand-logo {
-        height: 26px;
+        height: 30px;
     }
     .luxury-brand-logo { height: 22px; }
     .cta-section__eyebrow { font-size: 10px; letter-spacing: 0.24em; }
