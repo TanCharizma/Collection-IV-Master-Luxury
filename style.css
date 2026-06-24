@@ -1446,6 +1446,11 @@ section {
     transition: border-color 0.35s ease, color 0.35s ease, background-color 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.luxury-comp-card-btn {
+    min-width: 190px;
+    box-shadow: none;
+}
+
 .contact-list {
     display: flex;
     justify-content: center;
@@ -1744,10 +1749,15 @@ section {
 
 @media (max-width: 768px) {
     .modal {
-        --modal-mobile-toolbar-clearance: clamp(148px, 18vh, 220px);
-        --modal-caption-height: 112px;
-        --modal-control-gap: 8px;
-        --modal-control-step: 39px;
+        --modal-mobile-toolbar-clearance: clamp(68px, 8vh, 104px);
+        --modal-mobile-gap: 8px;
+        --modal-mobile-control-height: 36px;
+        --modal-caption-height: 0px;
+        top: calc(-1 * max(24px, env(safe-area-inset-top)));
+        height: calc(100dvh + max(24px, env(safe-area-inset-top)) + max(48px, env(safe-area-inset-bottom)));
+        padding-top: max(24px, env(safe-area-inset-top));
+        padding-bottom: max(48px, env(safe-area-inset-bottom));
+        box-sizing: border-box;
     }
 
     .modal-content {
@@ -1763,12 +1773,29 @@ section {
         max-height: 100svh;
     }
 
-    .comp-card-modal-note {
-        bottom: calc(var(--modal-mobile-toolbar-clearance) + max(24px, env(safe-area-inset-bottom))) !important;
+    #compCardModal {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: calc(28px + max(24px, env(safe-area-inset-top))) 18px calc(var(--modal-mobile-toolbar-clearance) + max(54px, env(safe-area-inset-bottom)));
     }
 
     #compCardImg {
-        max-height: calc(100svh - 160px) !important;
+        position: static;
+        max-width: 92vw !important;
+        max-height: calc(100svh - var(--modal-mobile-toolbar-clearance) - 132px) !important;
+        margin: 0;
+        object-fit: contain;
+    }
+
+    .comp-card-modal-note {
+        position: static;
+        transform: none;
+        width: auto;
+        text-align: center;
+        margin: 0;
     }
 
     .modal-caption {
@@ -1776,8 +1803,8 @@ section {
         right: 16px;
         bottom: calc(var(--modal-mobile-toolbar-clearance) + max(16px, env(safe-area-inset-bottom)));
         max-width: none;
-        max-height: min(24vh, 190px);
-        padding: 14px 16px;
+        max-height: min(22vh, 176px);
+        padding: 12px 14px;
     }
 
     .modal-caption__text {
@@ -1786,18 +1813,20 @@ section {
 
     .modal-caption-toggle {
         right: 16px;
-        bottom: calc(var(--modal-mobile-toolbar-clearance) + max(16px, env(safe-area-inset-bottom)) + var(--modal-caption-height) + var(--modal-control-gap));
+        bottom: calc(var(--modal-mobile-toolbar-clearance) + max(16px, env(safe-area-inset-bottom)) + var(--modal-caption-height) + var(--modal-mobile-gap));
+        min-height: var(--modal-mobile-control-height);
         font-size: 9px;
         letter-spacing: 0.18em;
-        padding: 10px 12px;
+        padding: 8px 11px;
     }
 
     .modal-fullscreen-toggle {
         right: 16px;
-        bottom: calc(var(--modal-mobile-toolbar-clearance) + max(16px, env(safe-area-inset-bottom)) + var(--modal-caption-height) + var(--modal-control-gap) + var(--modal-control-step));
+        bottom: calc(var(--modal-mobile-toolbar-clearance) + max(16px, env(safe-area-inset-bottom)) + var(--modal-caption-height) + var(--modal-mobile-gap) + var(--modal-mobile-control-height) + var(--modal-mobile-gap));
+        min-height: var(--modal-mobile-control-height);
         font-size: 9px;
         letter-spacing: 0.18em;
-        padding: 10px 12px;
+        padding: 8px 11px;
     }
 
     .modal:not(.has-caption-controls) .modal-fullscreen-toggle {
