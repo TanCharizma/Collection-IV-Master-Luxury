@@ -30,8 +30,8 @@ window.CLIENT_CONFIG = {
     },
 
     // 5. Comp Card
-    compCardUrl: "", // Example: "image/Folio-Lab-Compcard Luxury.webp" (leave blank "" to hide button)
-    compCardDownloadUrl: "", // Example: "image/Folio-Lab-Compcard Luxury.png"
+    compCardUrl: "image/Folio-Lab-Compcard Luxury.webp", // Example: "image/Folio-Lab-Compcard Luxury.webp" (leave blank "" to hide button)
+    compCardDownloadUrl: "image/Folio-Lab-Compcard Luxury.png", // Example: "image/Folio-Lab-Compcard Luxury.png"
 
     // 6. Image Modal Captions
     // Set showImageCaptions to false to hide captions and the caption toggle everywhere.
