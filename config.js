@@ -2,6 +2,13 @@
  * CLIENT CONFIGURATION
  * Update this object for each new client. Variables here automatically 
  * populate the navigation, footer, and booking page links.
+ *
+ * Fast buyer swap checklist:
+ * 1. Replace Basic Info, Roles, About copy, Manifesto, and Measurements below.
+ * 2. Replace images in the same folders using the same filenames for the fastest delivery.
+ * 3. Update compCardUrl / compCardDownloadUrl when replacing the comp card image.
+ * 4. Update imageCaptions only for images that should show captions in the modal.
+ * 5. Leave any optional link blank ("") to hide that contact button automatically.
  */
 window.CLIENT_CONFIG = {
     // 1. Basic Info
@@ -15,6 +22,20 @@ window.CLIENT_CONFIG = {
     // 3. About / Footer Short Description
     footerDescEn: "International model and creative director based in Bangkok, specializing in high-end editorial and commercial campaigns.",
     footerDescTh: "นางแบบและครีเอทีฟไดเรกเตอร์ระดับนานาชาติที่ประจำอยู่ในกรุงเทพฯ เชี่ยวชาญด้านงานถ่ายแบบนิตยสารและโฆษณาระดับไฮเอนด์",
+
+    // 3.5 About Page Copy
+    aboutBioEn: [
+        "Client bio opening. Replace this with a concise statement about presence, point of view, and creative direction.",
+        "Use this second line for selected campaigns, experience, availability, or the kind of collaborations the client is seeking.",
+        "Keep it short, specific, and editorial."
+    ],
+    aboutBioTh: [
+        "ย่อหน้าเปิดประวัติ แทนที่ด้วยคำแนะนำตัวที่กระชับเกี่ยวกับตัวตน มุมมอง และทิศทางสร้างสรรค์",
+        "ใช้ย่อหน้าที่สองสำหรับแคมเปญ ประสบการณ์ ความพร้อมรับงาน หรือรูปแบบงานที่ต้องการร่วมงาน",
+        "เขียนให้สั้น ชัดเจน และมีโทนแบบเอดิทอเรียล"
+    ],
+    manifestoEn: "Client manifesto placeholder. Replace with one sharp line that captures their creative presence.",
+    manifestoTh: "ตัวอย่างแมนิเฟสโตของลูกค้า แทนที่ด้วยประโยคสั้นคมที่สะท้อนตัวตนและพลังสร้างสรรค์",
 
     // 4. Measurements
     measurements: {
