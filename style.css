@@ -1738,6 +1738,10 @@ section {
     transform: translateX(-50%);
 }
 
+.comp-card-modal-note .btn-bold {
+    margin: 0;
+}
+
 @media (max-width: 390px) {
     .modal-nav { padding: 20px; font-size: 24px; }
 }
@@ -1790,6 +1794,12 @@ section {
         transform: none;
         width: auto;
         text-align: center;
+        margin: 0;
+    }
+
+    .comp-card-modal-note .btn-bold {
+        width: auto;
+        min-width: min(260px, calc(100vw - 72px));
         margin: 0;
     }
 
