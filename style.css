@@ -1740,9 +1740,10 @@ section {
 
 .comp-card-modal-note .btn-bold {
     margin: 0;
-    background: rgba(252, 251, 249, 0.94);
+    background: linear-gradient(135deg, rgba(252, 251, 249, 0.96), rgba(201, 167, 78, 0.18));
     color: var(--black);
-    border-color: rgba(252, 251, 249, 0.72);
+    border-color: var(--gold);
+    box-shadow: inset 0 -3px 0 rgba(201, 167, 78, 0.58);
 }
 
 @media (max-width: 390px) {

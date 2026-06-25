@@ -1,4 +1,4 @@
-const CACHE_NAME = 'luxury-portfolio-v53';
+const CACHE_NAME = 'luxury-portfolio-v54';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
