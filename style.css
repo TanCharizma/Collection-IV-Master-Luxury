@@ -1172,11 +1172,117 @@ section {
 }
 
 .luxury-clients-shell--about {
-    padding: 96px 0 96px 28px;
+    padding: 76px clamp(26px, 3.4vw, 44px) 58px;
+    border-top: 1px solid rgba(201, 167, 78, 0.12);
+    border-bottom: 1px solid rgba(28, 27, 25, 0.032);
+    background:
+        linear-gradient(90deg, rgba(201, 167, 78, 0.035), transparent 16%, transparent 84%, rgba(201, 167, 78, 0.035)),
+        rgba(252, 251, 249, 0.16);
+}
+
+.luxury-clients-shell--about .luxury-clients-heading {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: clamp(18px, 3vw, 42px);
+    margin-bottom: 38px;
+    text-align: center;
+}
+
+.luxury-clients-shell--about .luxury-clients-heading::before,
+.luxury-clients-shell--about .luxury-clients-heading::after {
+    content: '';
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201, 167, 78, 0.4));
+}
+
+.luxury-clients-shell--about .luxury-clients-heading::after {
+    background: linear-gradient(to left, transparent, rgba(201, 167, 78, 0.4));
 }
 
 .luxury-clients-row--about {
-    gap: clamp(42px, 8vw, 96px);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(118px, 1fr));
+    justify-content: center;
+    gap: clamp(14px, 1.8vw, 26px);
+    width: 100%;
+}
+
+.luxury-client-entry {
+    position: relative;
+    min-height: 104px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 26px 18px 22px;
+    border: 1px solid rgba(201, 167, 78, 0.14);
+    background: rgba(252, 251, 249, 0.28);
+}
+
+.luxury-client-entry::before,
+.luxury-client-entry::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    width: 16px;
+    height: 1px;
+    background: rgba(201, 167, 78, 0.42);
+}
+
+.luxury-client-entry::before {
+    left: 14px;
+}
+
+.luxury-client-entry::after {
+    right: 14px;
+}
+
+.luxury-client-entry span {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    color: var(--gold);
+    font-family: var(--serif);
+    font-size: 19px;
+    font-style: italic;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    transform: translateX(-50%);
+    opacity: 0.78;
+}
+
+.luxury-clients-row--about .luxury-brand-logo {
+    flex: 0 0 auto;
+    max-width: 168px;
+    height: 36px;
+    object-fit: contain;
+    opacity: 0.72;
+    filter: grayscale(1) contrast(0.92);
+    transition: opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease;
+}
+
+.luxury-clients-row--about .luxury-brand-logo:hover {
+    opacity: 1;
+    filter: grayscale(1) contrast(1);
+    transform: translateY(-1px);
+}
+
+.luxury-about-manifesto-section {
+    padding-top: 0;
+}
+
+.about-hero-section {
+    position: relative;
+    min-height: min(100svh, 860px);
+}
+
+.about-scroll-hint {
+    color: rgba(28, 27, 25, 0.7);
+}
+
+.about-scroll-hint::before {
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
 }
 
 .digitals-grid--luxury img {
@@ -2159,7 +2265,7 @@ footer {
         padding-left: 22px;
     }
     .luxury-clients-row--about {
-        gap: 48px;
+        gap: 18px;
     }
 
     .luxury-clients-section--about .luxury-clients-shell {
@@ -2321,16 +2427,21 @@ footer {
     .luxury-clients-row,
     .luxury-clients-row--about {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, max-content));
+        grid-template-columns: repeat(2, 1fr);
         justify-content: flex-start;
-        gap: 32px 42px;
+        gap: 16px;
     }
     .luxury-clients-section--about .luxury-clients-row {
         justify-content: center;
     }
-    .luxury-clients-section--about .luxury-clients-row .luxury-brand-logo:last-child {
+    .luxury-clients-section--about .luxury-client-entry {
+        min-height: 86px;
+        padding: 24px 14px 18px;
+    }
+    .luxury-clients-section--about .luxury-client-entry:last-child {
         grid-column: 1 / -1;
         justify-self: center;
+        width: calc(50% - 8px);
     }
     .luxury-clients-section--about .luxury-brand-logo {
         height: 30px;

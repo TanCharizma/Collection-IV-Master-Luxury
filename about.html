@@ -50,7 +50,7 @@
 <body>
 
     <script src="nav.js"></script>
-    <section style="padding-top: 96px; border-top: none;">
+    <section class="about-hero-section" style="padding-top: 96px; border-top: none;">
         <div class="container">
             <div style="grid-column: span 12;">
                 <h2 class="page-header">
@@ -72,6 +72,7 @@
                 </div>
             </div>
         </div>
+        <div class="luxury-scroll-hint about-scroll-hint" aria-hidden="true">Scroll</div>
     </section>
 
     <section class="container luxury-clients-section luxury-clients-section--about" style="background: var(--surface);">
@@ -81,16 +82,31 @@
                 <span lang="th">ลูกค้าที่ร่วมงาน</span>
             </h2>
             <div class="reveal reveal-fade delay-1 luxury-clients-row luxury-clients-row--about">
-                <img src="image/brand_icons/vogue.webp" alt="VOGUE" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
-                <img src="image/brand_icons/elle.webp" alt="ELLE" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
-                <img src="image/brand_icons/cartier.webp" alt="CARTIER" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
-                <img src="image/brand_icons/armani.webp" alt="ARMANI" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
-                <img src="image/brand_icons/levi.webp" alt="LEVI'S" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
+                <figure class="luxury-client-entry">
+                    <span>01</span>
+                    <img src="image/brand_icons/vogue.webp" alt="VOGUE" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
+                </figure>
+                <figure class="luxury-client-entry">
+                    <span>02</span>
+                    <img src="image/brand_icons/elle.webp" alt="ELLE" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
+                </figure>
+                <figure class="luxury-client-entry">
+                    <span>03</span>
+                    <img src="image/brand_icons/cartier.webp" alt="CARTIER" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
+                </figure>
+                <figure class="luxury-client-entry">
+                    <span>04</span>
+                    <img src="image/brand_icons/armani.webp" alt="ARMANI" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
+                </figure>
+                <figure class="luxury-client-entry">
+                    <span>05</span>
+                    <img src="image/brand_icons/levi.webp" alt="LEVI'S" class="brand-logo luxury-brand-logo" loading="lazy" decoding="async">
+                </figure>
             </div>
         </div>
     </section>
 
-    <section class="container" style="padding-bottom: 160px;">
+    <section class="container luxury-about-manifesto-section" style="padding-bottom: 160px;">
         <div style="grid-column: span 12;">
             <div class="reveal reveal-emotional luxury-manifesto-block" style="padding: 96px; border: 1px solid #eee;">
                 <p class="editorial-quote">

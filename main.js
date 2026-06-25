@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const heroSection = document.getElementById('hero');
         const heroBg = document.querySelector('.hero-bg');
         const heroContent = document.querySelector('.hero-content');
+        const heroScrollHint = document.querySelector('.luxury-scroll-hint');
         
         // Automatically extract the image URL defined in the HTML inline style
         const bgUrlMatch = heroBg.style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
@@ -149,12 +150,28 @@ document.addEventListener('DOMContentLoaded', () => {
                             const scale = 1 + (scrollOffset / vh) * 0.15;
                             heroBg.style.transform = `scale(${scale}) translateZ(0)`;
                         }
-                        heroContent.style.opacity = Math.max(0, 1 - (scrollOffset / (vh * 0.6)));
+                        const heroFade = Math.max(0, 1 - (scrollOffset / (vh * 0.6)));
+                        heroContent.style.opacity = heroFade;
+                        if (heroScrollHint) heroScrollHint.style.opacity = heroFade;
                     }
                     ticking = false;
                 });
                 ticking = true;
             }
+        }, { passive: true });
+    }
+
+    const aboutScrollHint = document.querySelector('.about-scroll-hint');
+    if (!isHomePage && aboutScrollHint) {
+        let aboutHintTicking = false;
+        window.addEventListener('scroll', () => {
+            if (aboutHintTicking) return;
+            window.requestAnimationFrame(() => {
+                const hintFade = Math.max(0, 1 - (window.scrollY / (vh * 0.6)));
+                aboutScrollHint.style.opacity = hintFade;
+                aboutHintTicking = false;
+            });
+            aboutHintTicking = true;
         }, { passive: true });
     }
 
